@@ -87,9 +87,9 @@ function animation2() {
   const TL = gsap.timeline()
 
   // événements
-  TL.to(car, {x: xmax()-50, duration: 6, ease: "power2.inOut" })
-  TL.to(car, {rotation: 90, duration: 1, ease: "none" })
-  TL.to(car, {y: ymax()-50, duration: 4, ease: "power2.inOut" })
+  TL.to(car, {x: xmax()-50, duration: 3, ease: "power2.inOut" })
+  TL.to(car, {rotation: 90, duration: 0.5, ease: "none", }, ">-0.5")
+  TL.to(car, {y: ymax()-50, duration: 2, ease: "power2.inOut" })
 }
 
 
