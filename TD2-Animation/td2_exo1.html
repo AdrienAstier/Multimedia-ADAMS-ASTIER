@@ -49,44 +49,29 @@
   </div>
 
   <div style="margin:12px 0;">
-  <button onclick="demoReset()">Réinitialiser</button>
-  <button onclick="demoTranslateY()">Translation (type y)</button>
-  <button onclick="demoAttrY()">Attribut y (attr:y)</button>
+  <button onclick="opReset()">Réinitialiser</button>
+  <button onclick="opAnim()">Opacité 0 → 1 (attr:opacity)</button>
 </div>
-<svg id="demo1" width="420" height="140" viewBox="0 0 420 140" style="border:1px solid #ccc;background:#eef">
-  <text id="demoText" x="210" y="70" text-anchor="middle" style="font:24px sans-serif; fill:#333;">Titre SVG</text>
+<svg id="demo2" width="420" height="140" viewBox="0 0 420 140" style="border:1px solid #ccc;background:#eef">
+  <text id="opText" x="210" y="70" text-anchor="middle" style="font:24px sans-serif; fill:#333;">Opacité</text>
 </svg>
 <script>
-  const t = document.getElementById('demoText');
-  function demoReset(){
-    t.setAttribute('y','70');
-    t.removeAttribute('transform');
+  const opT = document.getElementById('opText');
+  function opReset(){
+    opT.setAttribute('opacity','1');
   }
-  function demoTranslateY(){
-    // Simule un "y" qui agit comme translateY (raccourci GSAP)
-    let start=-60, end=0, dur=600, t0=performance.now();
+  function opAnim(){
+    let start=0, end=1, dur=1000, t0=performance.now();
+    opT.setAttribute('opacity', start);
     function step(ts){
       const k=Math.min(1,(ts-t0)/dur);
-      const y = start + (end-start)*k;
-      t.setAttribute('transform', `translate(0 ${y})`);
-      if(k < 1) requestAnimationFrame(step);
-    }
-    demoReset();
-    requestAnimationFrame(step);
-  }
-  function demoAttrY(){
-    // Modifie l'attribut y (équivalent attr:{y})
-    let start=-60, end=70, dur=600, t0=performance.now();
-    function step(ts){
-      const k=Math.min(1,(ts-t0)/dur);
-      const y = start + (end-start)*k;
-      t.setAttribute('y', y);
+      const v = start + (end-start)*k;
+      opT.setAttribute('opacity', v);
       if(k<1) requestAnimationFrame(step);
     }
-    demoReset();
     requestAnimationFrame(step);
   }
-  demoReset();
+  opReset();
 </script>
 
   <script>
@@ -143,11 +128,11 @@ function animation2() {
   // mettre en place la situation de départ
   reset()
   gsap.set(titre, {
-    // TODO mettre opacity à 0
+    opacity: 0
   })
   // animer vers la situation finale
   gsap.to(titre, {
-    // TODO mettre opacity à 1
+    opacity: 1,
     delay: 1,
     duration: 2,
     ease: "power2.in",
