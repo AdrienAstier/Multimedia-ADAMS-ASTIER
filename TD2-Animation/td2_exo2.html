@@ -101,11 +101,14 @@ function animation3() {
     motionPath: {
       path: [
         // TODO ajouter d'autres points ici
-        {x: xmax()-50, y: 200}
+        {x: xmax()-50, y: 200},
+        {x: xmax()-50, y: ymax()-50}
       ],
-      // TODO configuration du chemin
+      motionPath: [
+        {rotation: -190}
+      ]
     },
-    duration: 5,
+    duration: 2,
     ease: "power2.inOut"
   })
 }
