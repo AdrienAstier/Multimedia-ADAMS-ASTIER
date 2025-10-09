@@ -48,32 +48,6 @@
     <button onclick="animation5()">Animation 5</button>
   </div>
 
-  <div style="margin:12px 0;">
-  <button onclick="opReset()">Réinitialiser</button>
-  <button onclick="opAnim()">Opacité 0 → 1 (attr:opacity)</button>
-</div>
-<svg id="demo2" width="420" height="140" viewBox="0 0 420 140" style="border:1px solid #ccc;background:#eef">
-  <text id="opText" x="210" y="70" text-anchor="middle" style="font:24px sans-serif; fill:#333;">Opacité</text>
-</svg>
-<script>
-  const opT = document.getElementById('opText');
-  function opReset(){
-    opT.setAttribute('opacity','1');
-  }
-  function opAnim(){
-    let start=0, end=1, dur=1000, t0=performance.now();
-    opT.setAttribute('opacity', start);
-    function step(ts){
-      const k=Math.min(1,(ts-t0)/dur);
-      const v = start + (end-start)*k;
-      opT.setAttribute('opacity', v);
-      if(k<1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-  }
-  opReset();
-</script>
-
   <script>
 // éléments du dessin SVG
 const titre = SVGelement.fromSelector("#titre")
@@ -143,11 +117,11 @@ function animation3() {
   // mettre en place la situation de départ
   reset()
   gsap.set(titre, {
-    // TODO mettre fill à red
+    fill: 'red'
   })
   // animer vers la situation finale
   gsap.to(titre, {
-    // TODO mettre fill à green
+    fill: 'green',
     duration: 6,
     ease: "none",
   })
