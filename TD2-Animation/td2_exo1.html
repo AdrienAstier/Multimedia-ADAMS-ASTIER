@@ -48,6 +48,30 @@
     <button onclick="animation5()">Animation 5</button>
   </div>
 
+  <div style="margin:12px 0;">
+  <button onclick="fontReset()">Réinitialiser</button>
+  <button onclick="fontAnim()">Font 0px → 24px</button>
+</div>
+<svg id="demo4" width="420" height="140" viewBox="0 0 420 140" style="border:1px solid #ccc;background:#eef">
+  <text id="fontText" x="210" y="75" text-anchor="middle" style="font:0px sans-serif; fill:#333;">Police</text>
+</svg>
+<script>
+  const fT = document.getElementById('fontText');
+  function fontReset(){ fT.setAttribute('style','font:24px sans-serif; fill:#333;'); }
+  function fontAnim(){
+    let start=0, end=24, dur=800, t0=performance.now();
+    function step(ts){
+      const k=Math.min(1,(ts-t0)/dur);
+      const v = start + (end-start)*k;
+      fT.setAttribute('style', `font:${v}px sans-serif; fill:#333;`);
+      if(k<1) requestAnimationFrame(step);
+    }
+    fT.setAttribute('style','font:0px sans-serif; fill:#333;');
+    requestAnimationFrame(step);
+  }
+  fontReset();
+</script>
+
   <script>
 // éléments du dessin SVG
 const titre = SVGelement.fromSelector("#titre")
@@ -131,11 +155,11 @@ function animation4() {
   // mettre en place la situation de départ
   reset()
   gsap.set(titre, {
-    // TODO mettre le style à 'font: 0px sans-serif;'
+    font: '0px sans-serif'
   })
   // animer vers la situation finale
   gsap.to(titre, {
-    // TODO mettre le style à 'font: 24px sans-serif;'
+    font: '24px sans-serif',
     duration: 2,
     ease: "power2.in",
   })
