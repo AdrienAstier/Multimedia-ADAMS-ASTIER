@@ -104,10 +104,10 @@ Math.degrees = (rad) => rad / Math.PI * 180
     const svg = SVGelement.fromSelector("#dessin");
 
     //const led2 = new Led(svg, 70, 40, 10);
-    const ribbon = new LedRibbon(svg, PolarLine({
-        number: 16, 
-        x: 8, y: 8, // centre de la première led
-        angle: 25
+    const ribbon = new LedRibbon(svg, Circle({
+        number: 24, 
+        cx: 50, cy: 50,
+        r: 36
     }));
     
 
@@ -132,6 +132,15 @@ Math.degrees = (rad) => rad / Math.PI * 180
         for (let i = 0; i < number; i++) {
             yield { x: cx, y: cy, radius };
             cx += dx; cy += dy;
+        }
+    }
+
+    function* Circle({ number, cx, cy, r, radius = 4 } = {}) {
+        for (let i = 0; i < number; i++) {
+            const angle = 2 * Math.PI * i / number;
+            const x = cx + r * Math.cos(angle);
+            const y = cy + r * Math.sin(angle);
+            yield { x, y, radius };
         }
     }
 
