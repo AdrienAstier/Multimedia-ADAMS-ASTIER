@@ -7,6 +7,14 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 </head>
 <body>
+
+    <div style="margin: 10px;">
+        <button onclick="led2.reset()">Reset</button>
+        <button onclick="led2.anim1()">Animation 1</button>
+        <button onclick="led2.anim2()">Animation 2</button>
+        <button onclick="led2.anim3()">Animation 3</button>
+    </div>
+
   <!-- dessin SVG créé et modifié par les scripts JS -->
   <svg xmlns="http://www.w3.org/2000/svg"
         width="100%" viewBox="0 0 200 200"
@@ -49,6 +57,29 @@ Math.degrees = (rad) => rad / Math.PI * 180
         turnOff(timeline, duration = 0.1, position = ">") {
             timeline.to(this.led, { attr: { fill: "gray" }, duration }, position);
         }
+
+        reset() {
+            this.state = 0;
+            gsap.killTweensOf(this);
+        }
+
+        anim1() {
+            const tl = gsap.timeline();
+            this.turnOn(tl, 1.0);
+            this.turnOff(tl, 0.5, ">+1.5");
+        }
+        anim2() {
+            const tl = gsap.timeline();
+            tl.to(this, { state: 1, duration: 1.0 });
+            tl.to(this, { state: 0, duration: 0.5 }, ">+2");
+        }
+        anim3() {
+            const tl = gsap.timeline();
+            this.turnOn(tl, 0.7);
+            this.turnOff(tl, 0.4, ">+0.8");
+            tl.to(this, { state: 1, duration: 0.5 }, ">+0.5");
+            tl.to(this, { state: 0, duration: 0.4 }, ">+0.8");
+        }
     }
 
     class LedRibbon {
@@ -64,10 +95,7 @@ Math.degrees = (rad) => rad / Math.PI * 180
 
     const svg = SVGelement.fromSelector("#dessin");
 
-    const TL = gsap.timeline();
     const led2 = new Led(svg, 70, 40, 10);
-    TL.to(led2, { state: 1, duration: 1.0 });
-    TL.to(led2, { state: 0, duration: 0.5 }, ">+2");
 
   </script>
 </body>
