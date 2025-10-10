@@ -31,7 +31,16 @@ Math.degrees = (rad) => rad / Math.PI * 180
                 fill: "gray",
                 stroke: "black",
                 'stroke-width': radius/8
-            })
+            });
+            this._state = 0;
+        }
+
+        get state() { return this._state; }
+        set state(v) {
+            const value = Math.max(0, Math.min(1, +v || 0));
+            this._state = value;
+            const color = gsap.utils.interpolate("gray", "rgb(255,0,0)", value);
+            this.led.setAttribute("fill", color);
         }
 
         turnOn(timeline, duration = 0.1, position = ">") {
@@ -55,12 +64,10 @@ Math.degrees = (rad) => rad / Math.PI * 180
 
     const svg = SVGelement.fromSelector("#dessin");
 
-    const ribbon = new LedRibbon(svg, {number: 16, x: 8, y: 8})
-    const led = new Led(svg, 50, 50, 16)
-    // allumer la led puis l'éteindre, dans une timeline
-    const TLled = gsap.timeline()
-    led.turnOn(TLled, 1.0) // allumage en 1 seconde
-    led.turnOff(TLled, 0.5, ">+2") 
+    const TL = gsap.timeline();
+    const led2 = new Led(svg, 70, 40, 10);
+    TL.to(led2, { state: 1, duration: 1.0 });
+    TL.to(led2, { state: 0, duration: 0.5 }, ">+2");
 
   </script>
 </body>
