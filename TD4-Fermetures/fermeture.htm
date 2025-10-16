@@ -1,0 +1,22 @@
+<html>
+<head>
+<script>
+function f1(message="salut") {
+  function f2() {
+    console.log(`je suis f2, message=${message}`)
+  }
+  console.log("je suis f1 et je retourne la fonction f2")
+  f2.getMessage = () => message
+  f2.setMessage = (m) => message = m
+  return f2
+}
+
+const Fb = f1()
+Fb()
+const Fc = f1("hello")
+Fc()
+</script>
+</head>
+<body>
+</body>
+</html>
