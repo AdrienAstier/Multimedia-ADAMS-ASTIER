@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>TD3 exo 2</title>
+<!-- voir https://d3js.org/getting-started -->
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+</head>
+<body>
+<svg id="dessin"></svg>
+<script>
+const width = 400
+const height = 200
+
+function ScatterPlot(iris) {
+  console.log(iris) // à supprimer une fois que c'est ok
+}
+
+async function main() {
+  const iris = await d3.json("iris.json")
+  ScatterPlot(iris)
+}
+main()
+</script>
+</body>
+</html>
