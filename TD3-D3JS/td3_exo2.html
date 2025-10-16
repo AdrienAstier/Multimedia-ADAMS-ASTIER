@@ -38,13 +38,32 @@ function ScatterPlot(iris) {
         .attr("r", d => width / 100)
         .style("fill", d => colors[d.species]);
   
-        svg.append("g")
-  .attr("transform", `translate(0,${height - margin.bottom})`)
-  .call(d3.axisBottom(fX))
+    svg.append("g")
+        .attr("transform", `translate(0,${height - margin.bottom})`)
+        .call(d3.axisBottom(fX))
 
-svg.append("g")
-  .attr("transform", `translate(${margin.left},0)`)
-  .call(d3.axisLeft(fY))
+    svg.append("g")
+        .attr("transform", `translate(${margin.left},0)`)
+        .call(d3.axisLeft(fY))
+
+    const gTitresAxes = svg.append("g")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", height/20)
+        .style("text-anchor", "end")
+        .style("fill", "black")
+
+    gTitresAxes.append("text")
+        .attr("x", width - margin.right)
+        .attr("y", height)
+        .attr("dominant-baseline", "ideographic")
+        .text("sepalLength")
+
+    gTitresAxes.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("x", -margin.top)
+        .attr("y", 0)
+        .attr("dominant-baseline", "hanging")
+        .text("petalLength")
 
 }
 
