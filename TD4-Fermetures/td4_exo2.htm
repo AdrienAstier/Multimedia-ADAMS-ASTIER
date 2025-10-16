@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>TD3 final</title>
+<!-- voir https://d3js.org/getting-started -->
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+</head>
+<body>
+<svg id="dessin"></svg>
+<script>
+
+function ScatterPlot(config, iris) {
+  const svg = d3.select("#dessin")
+  svg.attr("viewBox", `0 0 ${config.width} ${config.height}`)
+
+  const fX = d3.scaleLinear()
+    .domain(d3.extent(iris, d => d.sepalLength))
+    .range([config.margin.left, config.width - config.margin.right])
+
+  const fY = d3.scaleLinear()
+    .domain(d3.extent(iris, d => d.petalLength))
+    .range([config.height - config.margin.bottom, config.margin.top])
+
+  svg.append("g")
+    .attr("transform", `translate(0,${config.height - config.margin.bottom})`)
+    .call(d3.axisBottom(fX))
+
+  svg.append("g")
+    .attr("transform", `translate(${config.margin.left},0)`)
+    .call(d3.axisLeft(fY))
+
+  const gAxes = svg.append("g")
+    .attr("font-family", "sans-serif")
+    .attr("font-size", config.height/20)
+    .style("text-anchor", "end")
+    .style("fill", "black")
+
+  gAxes.append("text")
+    .attr("x", config.width - config.margin.right)
+    .attr("y", config.height)
+    .attr("dominant-baseline", "ideographic")
+    .text("sepalLength")
+
+  gAxes.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("x", -config.margin.top)
+    .attr("y", 0)
+    .attr("dominant-baseline", "hanging")
+    .text("petalLength")
+
+  svg.selectAll("circle")
+    .data(iris)
+    .join("circle")
+    .attr("cx", d => fX(d.sepalLength))
+    .attr("cy", d => fY(d.petalLength))
+    .attr("r", config.width / 100)
+    .attr("fill", d => config.colors[d.species])
+}
+
+const config = {
+  // identifiant de l'élément <svg> concerné
+  idsvg: "#dessin",
+  // dimensions du graphique
+  width: 400,
+  height: 200,
+  // marges
+  margin: {top: 20, right: 10, bottom: 30, left: 40},
+  // couleurs
+  colors: {
+    "setosa": "#69b3a2",
+    "versicolor": "#a269b3",
+    "virginica": "#b3a269",
+  }
+}
+
+d3.json("iris.json")
+  .then(iris => ScatterPlot(config, iris))
+</script>
+</body>
+</html>
