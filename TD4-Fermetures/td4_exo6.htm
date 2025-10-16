@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>TD3 final</title>
+<!-- voir https://d3js.org/getting-started -->
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+</head>
+<body>
+<svg id="dessin"></svg>
+<script>
+
+  const colors = {
+  "setosa": "#69b3a2",
+  "versicolor": "#a269b3",
+  "virginica": "#b3a269",
+}
+
+function ScatterPlot({
+  titleX="X", getX=d => d.x, titleY="Y", getY=d => d.y, getColor=d => "steelblue", // titres, accès aux données
+  width=400, height=200, // dimensions
+  margin={top: 20, right: 10, bottom: 30, left: 40} // marges avec des valeurs par défaut
+}={}) {
+
+  d3.selection.prototype.appendIfAbsent = function(selector, type) {
+    const element = this.select(selector)
+    return element.empty() ? this.append(type) : element
+  }
+
+  function _dessiner(svg, iris) {
+    svg.attr("viewBox", `0 0 ${width} ${height}`)
+
+    const fX = d3.scaleLinear()
+      .domain(d3.extent(iris, d => d.sepalLength))
+      .range([margin.left, width - margin.right])
+
+    const fY = d3.scaleLinear()
+      .domain(d3.extent(iris, d => d.petalLength))
+      .range([height - margin.bottom, margin.top])
+
+    svg.append("g")
+      .attr("transform", `translate(0,${height - margin.bottom})`)
+      .call(d3.axisBottom(fX))
+
+    svg.append("g")
+      .attr("transform", `translate(${margin.left},0)`)
+      .call(d3.axisLeft(fY))
+
+    const gAxes = svg.append("g")
+      .attr("font-family", "sans-serif")
+      .attr("font-size", height/20)
+      .style("text-anchor", "end")
+      .style("fill", "black")
+
+    gAxes.append("text")
+      .attr("x", width - margin.right)
+      .attr("y", height)
+      .attr("dominant-baseline", "ideographic")
+      .text("sepalLength")
+
+    gAxes.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("x", -margin.top)
+      .attr("y", 0)
+      .attr("dominant-baseline", "hanging")
+      .text("petalLength")
+
+    svg.selectAll("circle")
+      .data(iris)
+      .join("circle")
+      .attr("cx", d => fX(d.sepalLength))
+      .attr("cy", d => fY(d.petalLength))
+      .attr("r", width / 100)
+      .attr("fill", d => colors[d.species])
+  }
+
+  function dessiner(selection) {
+    selection.each(function(datum) {
+      _dessiner(d3.select(this), datum) // this = élément <svg>, datum = iris
+    })
+  }
+  return dessiner;
+}
+
+const config = {
+  idsvg: "#dessin",
+  width: 400,
+  height: 200,
+  margin: {top: 20, right: 10, bottom: 30, left: 40},
+  colors: {
+    "setosa": "#69b3a2",
+    "versicolor": "#a269b3",
+    "virginica": "#b3a269",
+  },
+  titleX: "Sepal Length",
+  getX: d => d.sepalLength,
+  titleY: "Petal Length",
+  getY: d => d.petalLength,
+  getColor: d => config.colors[d.species],
+}
+
+const SC = ScatterPlot({
+  titleX: "Sepal Length",
+  getX: d => d.sepalLength,
+  titleY: "Petal Length", 
+  getY: d => d.petalLength,
+  getColor: d => colors[d.species],
+  // utilisation des valeurs par défaut pour les autres paramètres
+})
+
+d3.json("iris.json")
+  .then(iris => {
+    d3.select("#dessin")
+      .datum(iris)
+      .call(SC)
+
+    // redessiner une petite partie des données
+    d3.select("#dessin")
+      .datum(iris.slice(0, 30))
+      .call(SC)
+  })
+
+</script>
+</body>
+</html>
