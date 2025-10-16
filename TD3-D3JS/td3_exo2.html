@@ -11,6 +11,12 @@
 const width = 400
 const height = 200
 
+const colors = {
+  "setosa": "#69b3a2",
+  "versicolor": "#a269b3",
+  "virginica": "#b3a269",
+}
+
 function ScatterPlot(iris) {
     const svg = d3.select("#dessin");
     svg.attr("viewBox", `-5 -5 ${width+10} ${height+10}`)
@@ -20,7 +26,7 @@ function ScatterPlot(iris) {
         .attr("cx", d => d.sepalLength * 80 - 260)
         .attr("cy", d => d.petalLength * 25)
         .attr("r", d => width / 100)
-        .style("fill", d => "red");
+        .style("fill", d => colors[d.species]);
   
 }
 
