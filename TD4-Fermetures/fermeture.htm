@@ -15,6 +15,35 @@ const Fb = f1()
 Fb()
 const Fc = f1("hello")
 Fc()
+
+function g1({auteur, message, date}) {
+  function g2() {
+    console.log(`message=${message}, daté de ${date}, signé ${auteur}`)
+  }
+  return g2
+}
+
+const G = g1({date: "hier", message: "à demain", auteur: "Pierre"})
+G()
+
+function h1({auteur, message="bonjour", date="aujourd'hui"} = {}) {
+  function h2() {
+    console.log(`autre message=${message}, daté de ${date}, signé ${auteur}`)
+  }
+  h2.getMessage = () => message
+  h2.setMessage = (m) => message = m
+  h2.getDate = () => date
+  h2.setDate = (d) => date = d
+  return h2
+}
+
+const Ha = h1({auteur: "Pierre"})
+Ha()
+const Hb = h1({auteur: "Yannick", date: "demain"})
+Hb()
+const Hc = h1({auteur: "Pierre", date: "hier", message: "à demain"})
+Hc()
+
 </script>
 </head>
 <body>
