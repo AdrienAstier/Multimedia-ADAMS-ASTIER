@@ -31,9 +31,15 @@ function h1({auteur, message="bonjour", date="aujourd'hui"} = {}) {
     console.log(`autre message=${message}, daté de ${date}, signé ${auteur}`)
   }
   h2.getMessage = () => message
-  h2.setMessage = (m) => message = m
+  h2.setMessage = function (m) {
+    message = m
+    return h2
+  }
   h2.getDate = () => date
-  h2.setDate = (d) => date = d
+  h2.setDate = function (d) {
+    date = d
+    return h2
+  }
   return h2
 }
 
@@ -43,6 +49,10 @@ const Hb = h1({auteur: "Yannick", date: "demain"})
 Hb()
 const Hc = h1({auteur: "Pierre", date: "hier", message: "à demain"})
 Hc()
+
+const Hd = h1({auteur: "Yannick"}).setDate("hiziv").setMessage("demat")
+Hd()
+
 
 </script>
 </head>
