@@ -10,6 +10,7 @@
 <script>
 const width = 400
 const height = 200
+const margin = {top: 20, right: 10, bottom: 30, left: 40}
 
 const colors = {
   "setosa": "#69b3a2",
@@ -19,15 +20,32 @@ const colors = {
 
 function ScatterPlot(iris) {
     const svg = d3.select("#dessin");
-    svg.attr("viewBox", `-5 -5 ${width+10} ${height+10}`)
+    svg.attr("viewBox", `0 0 ${width} ${height}`)
+
+    const fX = d3.scaleLinear()
+    .domain(d3.extent(iris, d => d.sepalLength)) // amplitude des données
+    .range([margin.left, width - margin.right]) // amplitude des pixels
+
+    const fY = d3.scaleLinear()
+    .domain(d3.extent(iris, d => d.petalLength)) // amplitude des données
+    .range([height - margin.bottom, margin.top]) // amplitude des pixels
+
     svg.selectAll("circle")
         .data(iris)
         .join("circle")
-        .attr("cx", d => d.sepalLength * 80 - 260)
-        .attr("cy", d => d.petalLength * 25)
+        .attr("cx", d => fY(d.sepalLength))
+        .attr("cy", d => fY(d.petalLength))
         .attr("r", d => width / 100)
         .style("fill", d => colors[d.species]);
   
+        svg.append("g")
+  .attr("transform", `translate(0,${height - margin.bottom})`)
+  .call(d3.axisBottom(fX))
+
+svg.append("g")
+  .attr("transform", `translate(${margin.left},0)`)
+  .call(d3.axisLeft(fY))
+
 }
 
 async function main() {
