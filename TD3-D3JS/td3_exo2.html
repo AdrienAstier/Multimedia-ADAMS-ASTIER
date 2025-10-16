@@ -12,7 +12,16 @@ const width = 400
 const height = 200
 
 function ScatterPlot(iris) {
-  console.log(iris) // à supprimer une fois que c'est ok
+    const svg = d3.select("#dessin");
+    svg.attr("viewBox", `-5 -5 ${width+10} ${height+10}`)
+    svg.selectAll("circle")
+        .data(iris)
+        .join("circle")
+        .attr("cx", d => d.sepalLength * 80 - 260)
+        .attr("cy", d => d.petalLength * 25)
+        .attr("r", d => width / 100)
+        .style("fill", d => "red");
+  
 }
 
 async function main() {
@@ -20,6 +29,15 @@ async function main() {
   ScatterPlot(iris)
 }
 main()
+
+// liste.selectAll("li")        // 1. Sélection (même vide) : Définit les éléments cibles (existants ou non)
+            //     .data(aliments)            // 2. Liaison aux données : Associe chaque donnée à un élément DOM
+            //     .join("li")                // 3. Ajustement DOM ↔ données : Crée/supprime/met à jour les éléments
+            //     .text(d => d)
+            //     .style("list-style-type", "square")
+            //     .style("font-family", "cursive")
+            //     .append("tt")
+            //     .text(d => d)
 </script>
 </body>
 </html>
