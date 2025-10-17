@@ -40,11 +40,13 @@ function PartitionFloue(trapezes) {
         .attr("height", height)
         .attr("viewBox", `0 0 ${width} ${height}`);
 
-    svg.append("g")
+    svg.appendIfAbsent("#gAxe1" ,"g")
+        .attr("id", "gAxe1")
         .attr("transform", `translate(0, ${bottom})`)
         .call(d3.axisBottom(fX))
 
-    svg.append("g")
+    svg.appendIfAbsent("#gAxe2", "g")
+        .attr("id", "gAxe2")
         .attr("transform", `translate(0, ${top})`)
         .call(d3.axisTop(fX))
 
@@ -57,7 +59,8 @@ function PartitionFloue(trapezes) {
         .domain(domain)
         .range(d3.schemeSet2) 
 
-    const grpTrapezes = svg.append("g");
+    const grpTrapezes = svg.appendIfAbsent("#grpTrapezes", "g")
+        .attr("id", "grpTrapezes")
 
     grpTrapezes.selectAll("path")
     .data(trapezes)
@@ -76,6 +79,15 @@ function PartitionFloue(trapezes) {
                 .attr("x", trp => fX((trp.corL + trp.corH) / 2))
                 .attr("y", top*4)
                 .attr("text-anchor", "middle")
+        },
+        update => {
+            update.select("path")
+                .attr("d", trp => `M ${fX(trp.supL)} ${bottom} L ${fX(trp.corL)} ${top} L ${fX(trp.corH)} ${top} L ${fX(trp.supH)} ${bottom} `)
+            update.select("text")
+                .text(trp => trp.nom)
+                .attr("x", trp => fX((trp.corL + trp.corH) / 2))
+                .attr("y", top*4)
+                .attr("text-anchor", "middle")
         }
     )
 }
@@ -88,6 +100,15 @@ const Trapezes = [
 ]
 
 PartitionFloue(Trapezes);
+
+const Trapezes2 = [
+    { id: -1, supL: 0, corL: 0, corH: 5, supH: 11, nom: "glacial" },
+    ...Trapezes, // ajout ici des éléments de Trapezes
+    { id: 4, supL: 38, corL: 42, corH: 60, supH: 80, nom: "brûlant" },
+]
+PartitionFloue(Trapezes2)
+
+
 
 // ici, il y aura les scripts d3.js pour créer, modifier et animer l'image SVG (enlever ce commentaire)
   </script>
