@@ -39,6 +39,14 @@ function PartitionFloue(trapezes) {
     svg.attr("width",  width)
         .attr("height", height)
         .attr("viewBox", `0 0 ${width} ${height}`);
+
+    svg.append("g")
+        .attr("transform", `translate(0, ${bottom})`)
+        .call(d3.axisBottom(fX))
+
+    svg.append("g")
+        .attr("transform", `translate(0, ${top})`)
+        .call(d3.axisTop(fX))
 }
 
 const Trapezes = [
