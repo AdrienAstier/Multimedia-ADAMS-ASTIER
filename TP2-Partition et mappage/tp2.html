@@ -1,0 +1,34 @@
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <title>Dessin SVG avec d3.js</title>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" id="dessin"></svg>
+
+  <script type="module">
+
+// voir https://stackoverflow.com/a/65056488 (append if not exist)
+d3.selection.prototype.appendIfAbsent = function(selector, type) {
+  const element = this.select(selector)
+  return element.empty() ? this.append(type) : element
+}
+
+function PartitionFloue(trapezes) {
+    console.log("TRAPEZES", trapezes)
+}
+
+const Trapezes = [
+    { id: 0, supL: 5, corL: 11, corH: 14, supH: 18, nom: "froid" },
+    { id: 1, supL: 14, corL: 18, corH: 20, supH: 22, nom: "frais" },
+    { id: 2, supL: 20, corL: 22, corH: 24, supH: 30, nom: "tiède" },
+    { id: 3, supL: 24, corL: 30, corH: 38, supH: 42, nom: "chaud" },
+]
+
+PartitionFloue(Trapezes);
+
+// ici, il y aura les scripts d3.js pour créer, modifier et animer l'image SVG (enlever ce commentaire)
+  </script>
+</body>
+</html>
