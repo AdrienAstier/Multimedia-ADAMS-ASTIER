@@ -61,13 +61,23 @@ function PartitionFloue(trapezes) {
 
     grpTrapezes.selectAll("path")
     .data(trapezes)
-    .enter()
-    .append("path")
-    .attr("d", trp => `M ${fX(trp.supL)} ${bottom} L ${fX(trp.corL)} ${top} L ${fX(trp.corH)} ${top} L ${fX(trp.supH)} ${bottom} `)
-    .attr("stroke", trp => fColor(trp))
-    .attr("stroke-width", 2)
-    .attr("fill", trp => fColor(trp))
-    .attr("fill-opacity", 0.4)
+    .join(
+        enter => {
+            const g = enter.append("g")
+            g.append("path")
+                .attr("d", trp => `M ${fX(trp.supL)} ${bottom} L ${fX(trp.corL)} ${top} L ${fX(trp.corH)} ${top} L ${fX(trp.supH)} ${bottom} `)
+                .attr("stroke", trp => fColor(trp))
+                .attr("stroke-width", 2)
+                .attr("fill", trp => fColor(trp))
+                .attr("fill-opacity", 0.4)
+            
+            g.append("text")
+                .text(trp => trp.nom)
+                .attr("x", trp => fX((trp.corL + trp.corH) / 2))
+                .attr("y", top*4)
+                .attr("text-anchor", "middle")
+        }
+    )
 }
 
 const Trapezes = [
