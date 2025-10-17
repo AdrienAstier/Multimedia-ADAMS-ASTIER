@@ -23,8 +23,10 @@ function PartitionFloue(trapezes) {
     const height = width/4;
     const margin = {top: 20, right: 10, bottom: 20, left: 10};
 
+    const N = trapezes.length;
+
     const fX = d3.scaleLinear()
-        .domain([ trapezes[0].supL - 1, trapezes[trapezes.length-1].supH + 1 ])
+        .domain([ trapezes[0].supL - 1, trapezes[N-1].supH + 1 ])
         .range([margin.left, margin.left + width - margin.left - margin.right]);
 
     const fY = d3.scaleLinear()
