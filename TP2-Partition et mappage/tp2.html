@@ -47,6 +47,18 @@ function PartitionFloue(trapezes) {
     svg.append("g")
         .attr("transform", `translate(0, ${top})`)
         .call(d3.axisTop(fX))
+
+    const grpTrapezes = svg.append("g");
+
+    grpTrapezes.selectAll("path")
+    .data(trapezes)
+    .enter()
+    .append("path")
+    .attr("d", trp => `M ${fX(trp.supL)} ${bottom} L ${fX(trp.corL)} ${top} L ${fX(trp.corH)} ${top} L ${fX(trp.supH)} ${bottom} `)
+    .attr("stroke", "red")
+    .attr("stroke-width", 2)
+    .attr("fill", "gold")
+    .attr("fill-opacity", 0.4)
 }
 
 const Trapezes = [
