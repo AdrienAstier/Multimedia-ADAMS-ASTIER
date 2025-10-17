@@ -16,10 +16,24 @@ d3.selection.prototype.appendIfAbsent = function(selector, type) {
 }
 
 function PartitionFloue(trapezes) {
-    console.log("TRAPEZES", trapezes)
+
     const svg = d3.select("#dessin")
+
     const width = 600;
     const height = width/4;
+    const margin = {top: 20, right: 10, bottom: 20, left: 10};
+
+    const fX = d3.scaleLinear()
+        .domain([ trapezes[0].supL - 1, trapezes[trapezes.length-1].supH + 1 ])
+        .range([margin.left, margin.left + width - margin.left - margin.right]);
+
+    const fY = d3.scaleLinear()
+        .domain([0,1])
+        .range([margin.top + height - margin.top - margin.bottom, margin.top]);
+
+    const bottom = fY(0);
+    const top = fY(1);
+
     svg.attr("width",  width)
         .attr("height", height)
         .attr("viewBox", `0 0 ${width} ${height}`);
